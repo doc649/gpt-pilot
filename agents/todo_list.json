@@ -1,0 +1,53 @@
+{
+    "missions": [
+      {
+        "id": 1,
+        "description": "Corriger tous les imports cassés après réorganisation du projet.",
+        "status": "pending",
+        "priority": "critique"
+      },
+      {
+        "id": 2,
+        "description": "Vérifier la fonction de réception photo et extraction d'ingrédients.",
+        "status": "pending",
+        "priority": "critique"
+      },
+      {
+        "id": 3,
+        "description": "Vérifier la fonction de réception texte et parsing d'ingrédients.",
+        "status": "pending",
+        "priority": "critique"
+      },
+      {
+        "id": 4,
+        "description": "Optimiser le prompt GPT pour générer des recettes courtes et adaptées Algérie.",
+        "status": "pending",
+        "priority": "important"
+      },
+      {
+        "id": 5,
+        "description": "Implémenter la limite de 3 requêtes gratuites/jour par utilisateur Telegram.",
+        "status": "pending",
+        "priority": "important"
+      },
+      {
+        "id": 6,
+        "description": "Ajouter commande /payer pour instructions paiement Flexy/BaridiMob.",
+        "status": "pending",
+        "priority": "important"
+      },
+      {
+        "id": 7,
+        "description": "Gérer passage utilisateur en mode VIP après validation paiement manuel.",
+        "status": "pending",
+        "priority": "important"
+      },
+      {
+        "id": 8,
+        "description": "Déployer bot ChefBotDZ en Webhook sur Render.",
+        "status": "pending",
+        "priority": "important"
+      }
+    ]
+  }
+  

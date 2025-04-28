@@ -1,0 +1,7 @@
+[
+  {
+    "file": "./main.py",
+    "pilot_analysis": "[ANALYSE]\n\nIl semble y avoir un problème avec votre demande. Il n'y a aucun code listé dans le fichier ./main.py pour que je puisse analyser. Pour procéder à une analyse de code appropriée, veuillez fournir le contenu du fichier.",
+    "watcher_review": "[EVALUATION]\nImpossible d'évaluer puisqu'il n'y a pas de code présenté dans la demande.\n\n[FORCES]\nAucune force ne peut être déduite sans code présenté.\n\n[AMÉLIORATIONS]\nPilote, veuillez fournir le code à analyser pour une évaluation appropriée.\n\n[CODE REVISE]\nAucun code n'a été fournis à réviser."
+  }
+]
