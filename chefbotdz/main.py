@@ -1,11 +1,36 @@
 # main.py
 # redeploy trigger
+
 from flask import Flask, request, jsonify
 from app.telegram_handler import handle_update
 from app.config import TELEGRAM_TOKEN
 from app.telegram_handler import logger
+from app.db import initialize_database  # 👈 Initialiser la DB
+import os
+import requests
 
 app = Flask(__name__)
+
+# 🚀 Fonction pour configurer automatiquement le webhook
+def setup_webhook():
+    BASE_URL = os.getenv("RENDER_EXTERNAL_URL", "https://chefbot-dz.onrender.com")
+    WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "chefbotsecret")
+    webhook_url = f"{BASE_URL}/webhook"
+    set_webhook_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/setWebhook"
+
+    payload = {
+        "url": webhook_url,
+        "secret_token": WEBHOOK_SECRET
+    }
+
+    try:
+        response = requests.post(set_webhook_url, json=payload)
+        if response.status_code == 200:
+            logger.info("✅ Webhook Telegram configuré avec succès !")
+        else:
+            logger.error(f"❌ Erreur configuration Webhook : {response.text}")
+    except Exception as e:
+        logger.error(f"❌ Exception lors de la configuration Webhook: {str(e)}")
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -19,6 +44,8 @@ def webhook():
     })
 
 if __name__ == "__main__":
+    initialize_database()  # 👈 On initialise la base
+    setup_webhook()        # 👈 On configure le webhook Telegram
     app.run(host="0.0.0.0", port=5000, debug=True)
 
 

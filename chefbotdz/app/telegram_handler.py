@@ -1,84 +1,96 @@
 # app/telegram_handler.py
 
-import os
-import logging
 import requests
-
-from typing import Dict, Any, Optional, Union
-from dotenv import load_dotenv
-from chefbotdz.app.openai_services import process_text, process_image
-
-# Ajout configuration logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
-
-# Configuration logging
-logger = logging.getLogger(__name__)
-
-# Chargement des variables d'environnement
-load_dotenv()
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-
-if not TELEGRAM_TOKEN:
-    raise ValueError("La variable TELEGRAM_TOKEN est manquante.")
+import json
+from flask import jsonify
+from app.openai_services import process_text, process_image
+from app.config import TELEGRAM_TOKEN
+from app.db import add_user, get_user, increment_user_recipe_count, save_pending_recipes, get_pending_recipes, delete_pending_recipes
+from app.recipe_generator import generate_recipes  # À ajuster si besoin
+import logging
 
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
 
-def handle_update(update):
-    logger.info(f"📥 Nouveau message reçu: {update.get('message', {}).get('text', '')}")
+# Configuration logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
+def send_message(chat_id, text):
+    url = f"{TELEGRAM_API_URL}/sendMessage"
+    requests.post(url, json={"chat_id": chat_id, "text": text})
+
+def handle_update(update):
     if "message" not in update:
-        return {"status": "no_message"}
+        return jsonify({"status": "no_message"})
 
     message = update["message"]
-    chat_id = message["chat"]["id"]
+    chat_id = str(message["chat"]["id"])  # toujours en string pour la DB
 
-    try:
-        if "text" in message:
-            user_text = message["text"]
-            response_text = process_text(user_text)
-            logger.info(f"🍳 Réponse générée pour le texte: {response_text}")
-            send_message(chat_id, response_text)
-            return {"status": "ok", "response": response_text}
+    # 1️⃣ Enregistrer l'utilisateur s'il est nouveau
+    add_user(chat_id)
+    user = get_user(chat_id)
 
-        elif "photo" in message:
-            file_id = message["photo"][-1]["file_id"]
-            response_text = process_image(file_id)
-            logger.info(f"🖼️ Réponse générée pour l'image: {response_text}")
-            send_message(chat_id, response_text)
-            return {"status": "ok", "response": response_text}
+    if "text" in message:
+        user_text = message["text"]
 
+        # 2️⃣ Vérifier s'il est en train de choisir une recette
+        pending = get_pending_recipes(chat_id)
+        if pending:
+            try:
+                choice = int(user_text.strip())
+                recipes = json.loads(pending["recipes"])
+
+                if 1 <= choice <= len(recipes):
+                    selected_recipe = recipes[choice - 1]
+                    send_message(chat_id, selected_recipe)
+                    delete_pending_recipes(chat_id)
+                    return jsonify({"status": "recipe_sent"})
+                else:
+                    send_message(chat_id, "❌ رقم غير صالح. اختار بين 1 و 3.")
+                    return jsonify({"status": "invalid_choice"})
+
+            except ValueError:
+                send_message(chat_id, "❌ أرسل رقم صالح (1 أو 2 أو 3).")
+                return jsonify({"status": "invalid_choice"})
+
+        # 3️⃣ Sinon ➔ normal process : vérifier quota utilisateur
+        if not user["is_premium"] and user["recipes_today"] >= 3:
+            send_message(chat_id, "🔒 لقد وصلت للحد المجاني 3 وصفات في اليوم.\n🎯 اشترك في النسخة Premium للحصول على وصفات غير محدودة !")
+            return jsonify({"status": "limit_reached"})
+
+        # 4️⃣ Générer 1-3 recettes possibles
+        recipe_options = generate_recipes(user_text)  # retourne une liste de 1-3 recettes
+
+        if isinstance(recipe_options, list) and len(recipe_options) > 1:
+            options_text = "\n".join([f"{i+1}. {recipe}" for i, recipe in enumerate(recipe_options)])
+            send_message(chat_id, f"🧑‍🍳 هاك بعض الاقتراحات:\n{options_text}\n\n📥 رد عليا بالرقم تاع الوصفة لي تحبها (1 أو 2 أو 3).")
+            save_pending_recipes(chat_id, json.dumps(recipe_options))
         else:
-            logger.warning("Format non supporté reçu.")
-            return {"status": "unsupported_format"}
+            send_message(chat_id, recipe_options[0])
 
-    except Exception as e:
-        logger.error(f"🚨 Erreur lors du traitement du message: {e}", exc_info=True)
-        return {"status": "error", "error": str(e)}
+        # 5️⃣ Incrémenter le compteur si utilisateur Freemium
+        if not user["is_premium"]:
+            increment_user_recipe_count(chat_id)
 
-def send_message(chat_id: Union[int, str], text: str) -> Dict[str, Any]:
-    url = f"{TELEGRAM_API_URL}/sendMessage"
-    payload = {"chat_id": chat_id, "text": text}
-    try:
-        r = requests.post(url, json=payload)
-        r.raise_for_status()
-        return r.json()
-    except Exception as e:
-        logger.error(f"Erreur envoi message: {e}")
-        return {"ok": False, "error": str(e)}
+        return jsonify({"status": "ok"})
 
-def send_chat_action(chat_id: Union[int, str], action: str) -> Dict[str, Any]:
-    url = f"{TELEGRAM_API_URL}/sendChatAction"
-    payload = {"chat_id": chat_id, "action": action}
-    try:
-        r = requests.post(url, json=payload)
-        r.raise_for_status()
-        return r.json()
-    except Exception as e:
-        logger.error(f"Erreur chat action: {e}")
-        return {"ok": False, "error": str(e)}
+    elif "photo" in message:
+        file_id = message["photo"][-1]["file_id"]  # meilleure qualité
+        ingredients = process_image(file_id)
 
-def start_bot() -> int:
-    logger.info("Bot prêt à être connecté via webhook ou polling...")
-    # À implémenter selon ta méthode de lancement
-    return 0
+        recipe_options = generate_recipes(ingredients)
+
+        if isinstance(recipe_options, list) and len(recipe_options) > 1:
+            options_text = "\n".join([f"{i+1}. {recipe}" for i, recipe in enumerate(recipe_options)])
+            send_message(chat_id, f"🧑‍🍳 هاك بعض الاقتراحات:\n{options_text}\n\n📥 رد عليا بالرقم تاع الوصفة لي تحبها (1 أو 2 أو 3).")
+            save_pending_recipes(chat_id, json.dumps(recipe_options))
+        else:
+            send_message(chat_id, recipe_options[0])
+
+        # 5️⃣ Incrémenter le compteur si utilisateur Freemium
+        if not user["is_premium"]:
+            increment_user_recipe_count(chat_id)
+
+        return jsonify({"status": "ok"})
+
+    return jsonify({"status": "unsupported_format"})

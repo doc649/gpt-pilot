@@ -58,3 +58,85 @@
 [2025-04-26 19:42:08] 📄 Analyse du fichier modifié: ./main.py
 [2025-04-26 19:42:14] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250426_194214.json
 [2025-04-28 03:57:04] 👁️ Watcher en route...
+[2025-04-28 04:57:06] ⏰ Analyse globale planifiée
+[2025-04-28 04:57:06] 🧠 Lancement d'une analyse du projet...
+[2025-04-28 04:57:53] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250428_045753.json
+[2025-04-29 00:44:46] 👁️ Watcher en route...
+[2025-04-29 01:20:20] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 01:20:20] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 01:20:20] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 01:20:42] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_012042.json
+[2025-04-29 01:20:44] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 01:20:44] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 01:20:44] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 01:21:10] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_012110.json
+[2025-04-29 01:25:59] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 01:25:59] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 01:25:59] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 01:26:31] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_012631.json
+[2025-04-29 01:26:33] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 01:26:33] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 01:26:33] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 01:27:06] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_012706.json
+[2025-04-29 02:05:25] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 02:05:25] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 02:05:25] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 02:06:00] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_020600.json
+[2025-04-29 02:06:02] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 02:06:02] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 02:06:02] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 02:06:27] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_020627.json
+[2025-04-29 02:06:29] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 02:06:29] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 02:06:29] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 02:07:04] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_020704.json
+[2025-04-29 02:07:06] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 02:07:06] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 02:07:06] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 02:07:33] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_020733.json
+[2025-04-29 02:12:32] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 02:12:32] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 02:12:32] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 02:12:39] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_021239.json
+[2025-04-29 02:12:41] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 02:12:41] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 02:12:41] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 02:13:12] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_021312.json
+[2025-04-29 02:55:15] 🔁 Modifications détectées sur 2 fichier(s)
+[2025-04-29 02:55:15] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 02:55:15] 📄 Analyse du fichier modifié: ./scripts/run_gpt_pilot.py
+[2025-04-29 02:56:18] 📄 Analyse du fichier modifié: ./agents/run_gpt_pilot.py
+[2025-04-29 02:56:37] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_025637.json
+[2025-04-29 03:13:33] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:13:33] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:13:33] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 03:13:38] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_031338.json
+[2025-04-29 03:13:40] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:13:40] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:13:40] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 03:14:07] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_031407.json
+[2025-04-29 03:24:53] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:24:53] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:24:53] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 03:24:57] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_032457.json
+[2025-04-29 03:24:59] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:24:59] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:24:59] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 03:25:40] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_032540.json
+[2025-04-29 03:27:23] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:27:23] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:27:23] 📄 Analyse du fichier modifié: ./chefbotdz/app/__init__.py
+[2025-04-29 03:27:31] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_032731.json
+[2025-04-29 03:27:35] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:27:35] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:27:35] 📄 Analyse du fichier modifié: ./chefbotdz/__init__.py
+[2025-04-29 03:27:57] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_032757.json
+[2025-04-29 03:35:46] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:35:46] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:35:46] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 03:36:29] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_033629.json
+[2025-04-29 03:36:31] 🔁 Modifications détectées sur 1 fichier(s)
+[2025-04-29 03:36:31] 🧠 Lancement d'une analyse du projet...
+[2025-04-29 03:36:31] 📄 Analyse du fichier modifié: ./main_pilot.py
+[2025-04-29 03:37:04] ✅ Résultats enregistrés dans ./analysis_results/analysis_20250429_033704.json
+[2025-04-29 03:39:49] 👁️ Watcher en route...

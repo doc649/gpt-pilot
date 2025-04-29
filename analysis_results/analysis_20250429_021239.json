@@ -1,0 +1,7 @@
+[
+  {
+    "file": "./main_pilot.py",
+    "pilot_analysis": "Il semble y avoir une confusion. Le fichier présenté est vide (`./main_pilot.py`). Aucun code n'est présent pour l'analyse. Veuillez fournir le code source afin que je puisse procéder à l'analyse, identifier les problèmes, proposer des solutions et rédiger le code corrigé.",
+    "watcher_review": "[EVALUATION]\nIl n'y a aucun code présenté pour une évaluation.\n\n[FORCES]\nAucune force ne peut être identifiée dans un code inexistant.\n\n[AMELIORATIONS]\nPour commencer l'analyse, du code doit être ajouté.\n\n[CODE_REVISE]\nNon applicable en l'absence de code."
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "file": "./main_pilot.py",
+    "pilot_analysis": "[ANALYSE]\nLe fichier \"main_pilot.py\" est vide. Il n'y a donc rien à analyser pour le moment.",
+    "watcher_review": "[ÉVALUATION]\nL'analyse demandée ne peut pas être réalisée en raison de l'absence de contenu.\n\n[FORCES]\nNon applicables.\n\n[AMÉLIORATIONS]\nNon applicables.\n\n[CODE REVU]\nNon applicable."
+  }
+]

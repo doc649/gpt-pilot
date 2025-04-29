@@ -1,14 +1,13 @@
 # app/recipe_generator.py
 
 """
-Module pour générer des recettes personnalisées
-en fonction des ingrédients donnés par l'utilisateur.
-Utilise OpenAI pour la génération créative.
+Module pour générer des suggestions de recettes algériennes personnalisées
+basées sur des ingrédients donnés. Retourne 1 à 3 options.
+Langue principale : darija algérienne en lettres arabes + français simple si nécessaire.
 """
 
 import os
 import logging
-from typing import List
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -16,55 +15,59 @@ from openai import OpenAI
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# Vérification de la clé
 if not OPENAI_API_KEY:
     raise ValueError("La clé OPENAI_API_KEY n'est pas définie.")
 
 # Initialisation du client OpenAI
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-# Configuration du logging
+# Configuration logging
 logger = logging.getLogger(__name__)
 
-def format_ingredients(ingredients: List[str]) -> str:
-    """Formate la liste des ingrédients pour l'injecter dans le prompt."""
-    return ", ".join(ingredient.strip().lower() for ingredient in ingredients)
-
-def generate_recipes(user_input: str) -> str:
+def generate_recipes(user_ingredients_text: str) -> list:
     """
-    Génère une recette à partir d'une liste d'ingrédients ou d'un thème donné.
-    
+    Génère 1 à 3 suggestions de recettes DZ basées sur les ingrédients donnés.
+
     Args:
-        user_input (str): Liste d'ingrédients ou thème envoyé par l'utilisateur.
+        user_ingredients_text (str): Ingrédients envoyés par l'utilisateur.
 
     Returns:
-        str: Recette générée
+        list: Liste de 1 à 3 recettes courtes prêtes à être proposées.
     """
-    logger.info(f"Génération de recette pour: {user_input}")
+    logger.info(f"🧠 Génération de suggestions de recettes pour: {user_ingredients_text}")
 
-    prompt = (
-        "Tu es un grand chef étoilé. "
-        "Génère une recette simple, rapide, et délicieuse "
-        "basée uniquement sur ces ingrédients ou ce thème:\n\n"
-        f"{user_input}\n\n"
-        "Structure :\n"
-        "- Nom du plat\n"
-        "- Ingrédients (avec quantités approximatives)\n"
-        "- Étapes détaillées de préparation\n"
-        "- Astuce bonus de chef à la fin"
-    )
+    # Prompt blindé DZ
+    prompt = f"""
+أنت ChefBotDZ، طباخ جزائري ذكي.
+
+🎯 المطلوب :
+- اقترح على المستخدم 1 إلى 3 وصفات جزائرية حقيقية تناسب المكونات لي عطاهم.
+- كل وصفة لازم تكون عبارة عن عنوان قصير مع وصف صغير (سطرين بالكثير).
+- استعمل الدارجة الجزائرية بالحروف العربية. وإذا كان لازم، زيد كلمة تقنية بالفرنسية بين قوسين.
+- إذا المكونات قليلة بزاف وماكاش وصفات معروفة، اقترح إضافة مكون واحد فقط.
+- جاوب بدون مقدمات طويلة، دخل ديريكت فالعرض.
+
+🎯 المكونات :
+{user_ingredients_text}
+"""
 
     try:
         response = client.chat.completions.create(
             model="gpt-4",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=600,
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": user_ingredients_text}
+            ],
+            max_tokens=500,
+            temperature=0.5,
         )
-        recipe = response.choices[0].message.content.strip()
-        logger.debug("Recette générée avec succès")
-        return recipe
+        raw_text = response.choices[0].message.content.strip()
+        logger.info("✅ Suggestions de recettes générées avec succès")
+
+        # Découper la réponse en 1-3 recettes
+        suggestions = [line.strip() for line in raw_text.split('\n') if line.strip()]
+        return suggestions[:3]  # Prendre maximum 3 recettes
 
     except Exception as e:
-        logger.error(f"Erreur lors de la génération de recette: {e}", exc_info=True)
-        return "Désolé, une erreur est survenue lors de la création de votre recette."
-
+        logger.error(f"🚨 Erreur lors de la génération de suggestions: {e}", exc_info=True)
+        return ["❌ خطأ وقع أثناء توليد الوصفة، حاول مرة أخرى."]
