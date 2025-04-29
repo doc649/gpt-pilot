@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: chefbot-dz
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn chefbotdz.app.main:app
+    envVars:
+      - key: TELEGRAM_TOKEN
+        fromEnv: TELEGRAM_TOKEN
+      - key: OPENAI_API_KEY
+        fromEnv: OPENAI_API_KEY
+      - key: WEBHOOK_SECRET
+        fromEnv: WEBHOOK_SECRET
